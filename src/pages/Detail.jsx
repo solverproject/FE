@@ -2,45 +2,54 @@ import React from "react";
 import styled from "styled-components";
 import { Resizable } from "re-resizable";
 
-import QuestionDetail from "../components/questionDetail/QuestionDetail";
+import QuestionDetail from "../compo`nents/questionDetail/QuestionDetail";
 import Chat from "../components/chat/Chat";
+import Header from "../components/layout/Header";
 
 export default function Detail() {
   return (
-    <DivContainer>
-      <DivLeft>
-        <QuestionDetail />
-      </DivLeft>
-      <Resizable
-        defaultSize={{ width: "50%", height: "100%" }}
-        minWidth={"30%"}
-        maxWidth={"70%"}
-        enable={{
-          top: false,
-          right: false,
-          bottom: false,
-          left: true,
-          topRight: false,
-          bottomRight: false,
-          bottomLeft: false,
-          topLeft: false,
-        }}
-        handleStyles={{
-          left: {
-            width: "3px",
-            height: "100%",
-            backgroundColor: "#d1d5db",
-          },
-        }}
-      >
-        <DivRight>
-          <Chat />
-        </DivRight>
-      </Resizable>
-    </DivContainer>
+    <DivDetailContainer>
+      <Header />
+      <DivContainer>
+        <DivLeft>
+          <QuestionDetail />
+        </DivLeft>
+        <Resizable
+          defaultSize={{ width: "50%", height: "100%" }}
+          minWidth={"30%"}
+          maxWidth={"70%"}
+          enable={{
+            top: false,
+            right: false,
+            bottom: false,
+            left: true,
+            topRight: false,
+            bottomRight: false,
+            bottomLeft: false,
+            topLeft: false,
+          }}
+          handleStyles={{
+            left: {
+              width: "3px",
+              height: "100%",
+              backgroundColor: "#d1d5db",
+            },
+          }}
+        >
+          <DivRight>
+            <Chat />
+          </DivRight>
+        </Resizable>
+      </DivContainer>
+    </DivDetailContainer>
   );
 }
-
+const DivDetailContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
 //re-resizable 사용
 const DivContainer = styled.div`
   width: 100%;

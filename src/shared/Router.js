@@ -6,6 +6,7 @@ import SignUp from "./../pages/SignUp";
 import Solver from "./../pages/Solver";
 import MyPage from "./../pages/MyPage";
 import Detail from "../pages/Detail";
+import Header from "../components/layout/Header";
 
 const Router = () => {
   return (
