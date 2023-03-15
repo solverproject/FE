@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Resizable } from "re-resizable";
 
-import QuestionDetail from "../compo`nents/questionDetail/QuestionDetail";
+import QuestionDetail from "../components/questionDetail/QuestionDetail";
 import Chat from "../components/chat/Chat";
 import Header from "../components/layout/Header";
 
