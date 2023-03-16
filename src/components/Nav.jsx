@@ -7,12 +7,12 @@ import { color } from "../utils/styles/color";
 export default function Nav() {
   const navigate = useNavigate();
 
-  const buttonNavHandler = (url) => {
+  const buttonNavHandler = (url = "") => {
     navigate(`/${url}`);
   };
   return (
     <>
-      <button>S</button>
+      <button onClick={() => buttonNavHandler()}>S</button>
       <BtnNav
         fontSize={"18px"}
         color={color.mainBlue}
