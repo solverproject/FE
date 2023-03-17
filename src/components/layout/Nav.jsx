@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { color } from "../utils/styles/color";
+import { color } from "../../utils/styles/color";
 
 export default function Nav() {
   const navigate = useNavigate();

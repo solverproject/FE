@@ -14,8 +14,13 @@ instance.interceptors.request.use(
     // // 토큰을 요청이 시작될 때 가져옴
     const accessToken = getCookie("ACCESS_TOKEN");
     // // 요청 config headers에 토큰을 넣어 줌
-    config.headers["Authorization"] = accessToken;
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    return config;
+    // config.headers["Authorization"] = accessToken;
     // // config.headers["RT_Authorization"] = accessToken;
+
     return config;
 
     // return config;
@@ -25,7 +30,7 @@ instance.interceptors.request.use(
   function (error) {
     console.log("데이터 보내는중 오류!");
     return Promise.reject(error);
-  },
+  }
 );
 
 instance.interceptors.response.use(
@@ -38,7 +43,11 @@ instance.interceptors.response.use(
   },
 
   function (error) {
+    if (error.response.statusCode === 400) {
+      alert("데이터 수신중에 오류!");
+    }
+
     return Promise.reject(error);
-  },
+  }
 );
 export default instance;

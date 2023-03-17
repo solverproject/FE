@@ -6,7 +6,7 @@ import LoginForm from "../components/login/LoginForm";
 import LoginTitle from "../components/login/LoginTitle";
 import LoginType from "../components/login/LoginType";
 
-const Login = () => {
+const Login2 = () => {
   return (
     <DivLoginContainer>
       <LoginTitle />
@@ -22,7 +22,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login2;
 
 const DivLoginContainer = styled.div`
   height: 100vh;
