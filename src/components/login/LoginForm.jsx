@@ -1,14 +1,33 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router";
 
 import { color } from "../../utils/styles/color";
+import { loginUser } from "../../api/api";
+import { setCookie } from "../../api/cookies";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const loginMutation = useMutation(loginUser, {
+    onSuccess: (response) => {
+      console.log(response);
+      setCookie("ACCESS_TOKEN", response.headers.authorization.split(" ")[1]);
+      localStorage.setItem("name", response.data.username);
+
+      alert("login!");
+      navigate("/");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const HandlerEmailChange = (e) => {
-    setEmail(e.target.value);
+    setUserEmail(e.target.value);
   };
   const HandlerPasswordChange = (e) => {
     setPassword(e.target.value);
@@ -16,13 +35,18 @@ export default function LoginForm() {
 
   const HandlerSubmit = (e) => {
     e.preventDefault();
+    const loginUser = {
+      userEmail,
+      password,
+    };
+    loginMutation.mutate(loginUser);
   };
   return (
     <FormContainer onSubmit={HandlerSubmit}>
       <InputTag
         type="text"
         placeholder="이메일을 입력하세요. (ex. solver@gamil.com)"
-        value={email}
+        value={userEmail}
         onChange={HandlerEmailChange}
       />
       <InputTag

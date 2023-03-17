@@ -6,6 +6,7 @@ import SignUp from "./../pages/SignUp";
 import Solver from "./../pages/Solver";
 import MyPage from "./../pages/MyPage";
 import Detail from "../pages/Detail";
+import Login2 from "../pages/Login2";
 import Header from "../components/layout/Header";
 
 const Router = () => {
@@ -14,6 +15,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/login2" element={<Login2 />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/solver" element={<Solver />} />
         <Route path="/mypage" element={<MyPage />} />
