@@ -9,7 +9,8 @@ const SignUp = () => {
 
   const queryClient = useQueryClient();
   const mutation = useMutation(signUpUser, {
-    onSuccess: () => {
+    onSuccess: (response) => {
+      console.log(response);
       queryClient.invalidateQueries("user");
     },
     onError: (response) => {
@@ -27,7 +28,6 @@ const SignUp = () => {
       password,
       nickname,
     };
-    console.log(newUser);
     mutation.mutate(newUser);
   };
 
