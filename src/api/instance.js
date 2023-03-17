@@ -46,6 +46,7 @@ instance.interceptors.response.use(
     if (error.response.statusCode === 400) {
       alert("데이터 수신중에 오류!");
     }
+
     return Promise.reject(error);
   }
 );

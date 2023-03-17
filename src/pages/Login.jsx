@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { useQueryClient, useMutation } from "react-query";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
 import { setCookie } from "../api/cookies";
-import { loginUser } from "../api/api";
-import {
-  KAKAO_REST_API_KEY,
-  NAVER_REST_API_KEY,
-  GOOGLE_REST_API_KEY,
-} from "../api/api_key";
+import { loginUser } from "../api/api.js";
+import styled from "styled-components";
+import { KAKAO_REST_API_KEY, NAVER_REST_API_KEY, GOOGLE_REST_API_KEY } from "../api/api_key";
+
 
 const Login = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -20,8 +17,7 @@ const Login = () => {
     onSuccess: (response) => {
       queryClient.invalidateQueries("user");
       setCookie("ACCESS_TOKEN", response.headers.authorization);
-      // setCookie("RT_TOKEN", response.headers.rt_authorization);
-
+      localStorage.setItem("RT_TOKEN", response.headers.rt_authorization);
       localStorage.setItem("name", response.data.username);
       console.log(response);
     },
@@ -119,7 +115,7 @@ const DivCheckID = styled.div`
   margin: 20px auto;
 `;
 
-const LinkTag = styled(Link)`
+const LinkTag = styled.div`
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
