@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useQueryClient, useMutation } from "react-query";
 import { setCookie } from "../api/cookies";
@@ -89,7 +90,45 @@ const Login = () => {
       <br />
       <button onClick={onHandleGoogleLogin}>구글로 로그인하기</button>
     </>
+
   );
 };
 
 export default Login;
+
+const DivLoginContainer = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: radial-gradient(50% 50% at 50% 50%, #1033ff 0%, #000000 100%);
+`;
+const PsubTitle = styled.p`
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 31px;
+  color: white;
+`;
+
+const DivCheckID = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 468px;
+  margin: 20px auto;
+`;
+
+const LinkTag = styled(Link)`
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: white;
+
+  &:hover {
+    text-decoration-line: underline;
+  }
+`;
+
+const DivEasyLogin = styled.div`
+  color: white;
+`;
