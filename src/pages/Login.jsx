@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useQueryClient, useMutation } from "react-query";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { setCookie } from "../api/cookies";
 import { loginUser } from "../api/api.js";
 import styled from "styled-components";
-import { KAKAO_REST_API_KEY, NAVER_REST_API_KEY, GOOGLE_REST_API_KEY } from "../api/api_key";
-
+import {
+  KAKAO_REST_API_KEY,
+  NAVER_REST_API_KEY,
+  GOOGLE_REST_API_KEY,
+} from "../api/api_key";
 
 const Login = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -16,9 +18,13 @@ const Login = () => {
   const mutation = useMutation(loginUser, {
     onSuccess: (response) => {
       queryClient.invalidateQueries("user");
-      setCookie("ACCESS_TOKEN", response.headers.authorization);
-      localStorage.setItem("RT_TOKEN", response.headers.rt_authorization);
-      localStorage.setItem("name", response.data.username);
+      setCookie("ACCESS_TOKEN", response.headers.authorization.split(" "[1]));
+      console.log(response.headers.refresh_token, response.data.data);
+      localStorage.setItem(
+        "REFRESH_TOKEN",
+        response.headers.refresh_token.split(" ")[1]
+      );
+      localStorage.setItem("name", response.data.data);
       console.log(response);
     },
     onError: () => {

@@ -1,8 +1,10 @@
 import instance from "./instance";
 
 const getCard = async () => {
+  console.log("호출은함?");
   const response = await instance.get(`/api/boards`);
-  return response.data;
+  console.log(response);
+  return response.data.data;
 };
 
 const loginUser = async (userId) => {

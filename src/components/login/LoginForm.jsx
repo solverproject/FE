@@ -16,7 +16,11 @@ export default function LoginForm() {
     onSuccess: (response) => {
       console.log(response);
       setCookie("ACCESS_TOKEN", response.headers.authorization.split(" ")[1]);
-      localStorage.setItem("name", response.data.username);
+      localStorage.setItem(
+        "REFRESH_TOKEN",
+        response.headers.refresh_token.split(" ")[1]
+      );
+      localStorage.setItem("name", response.data.data);
 
       alert("login!");
       navigate("/");

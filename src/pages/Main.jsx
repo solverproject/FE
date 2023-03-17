@@ -8,6 +8,7 @@ import Card from "./../components/card/Card";
 const Main = () => {
   const queryClient = useQueryClient();
   const { isLoading, isError, data } = useQuery("card", getCard);
+  console.log(data);
   if (isLoading) {
     return <h2>로딩중</h2>;
   }
@@ -22,6 +23,7 @@ const Main = () => {
       </StMainImg>
       <label>검색하기</label>
       <input type="text" placeholder="해시태그 검색" />
+
       {data?.map((item) => {
         return <Card item={item} />;
       })}
