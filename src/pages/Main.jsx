@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useQuery, useQueryClient } from "react-query";
 import { getCard } from "../api/api";
 import Card from "./../components/card/Card";
+
 const Main = () => {
   const queryClient = useQueryClient();
   const { isLoading, isError, data } = useQuery("card", getCard);

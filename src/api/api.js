@@ -5,4 +5,12 @@ const getCard = async () => {
   return response.data;
 };
 
-export { getCard };
+const loginUser = async (userId) => {
+  return await instance.post(`/api/users/login`, userId);
+};
+
+const signUpUser = async (newbie) => {
+  return await instance.post(`/api/users/signup`, newbie);
+};
+
+export { getCard, loginUser, signUpUser };
