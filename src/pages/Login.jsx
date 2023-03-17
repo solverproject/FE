@@ -1,8 +1,10 @@
-
 import React, { useState } from "react";
 import { useQueryClient, useMutation } from "react-query";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+
 import { setCookie } from "../api/cookies";
-import { loginUser } from "../api/api.js";
+import { loginUser } from "../api/api";
 import {
   KAKAO_REST_API_KEY,
   NAVER_REST_API_KEY,
@@ -90,7 +92,6 @@ const Login = () => {
       <br />
       <button onClick={onHandleGoogleLogin}>구글로 로그인하기</button>
     </>
-
   );
 };
 
