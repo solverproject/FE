@@ -19,7 +19,6 @@ const Login = () => {
     onSuccess: (response) => {
       queryClient.invalidateQueries("user");
       setCookie("ACCESS_TOKEN", response.headers.authorization.split(" "[1]));
-      console.log(response.headers.refresh_token, response.data.data);
       localStorage.setItem(
         "REFRESH_TOKEN",
         response.headers.refresh_token.split(" ")[1]

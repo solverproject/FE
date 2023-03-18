@@ -8,12 +8,14 @@ import MyPage from "./../pages/MyPage";
 import Detail from "../pages/Detail";
 import Login2 from "../pages/Login2";
 import Header from "../components/layout/Header";
+import MindMap from "../pages/MindMap";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<MindMap />} />
+        {/* <Route path="/" element={<Main />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/login2" element={<Login2 />} />
         <Route path="/signup" element={<SignUp />} />
