@@ -9,6 +9,8 @@ const initialState = {
       type: "mindmap",
       data: { label: "React Flow Mind Map" },
       position: { x: 0, y: 0 },
+      //childnode 추가?
+      childNode: [],
     },
   ],
   edges: [],
@@ -27,20 +29,27 @@ const nodeSlice = createSlice({
     },
     addChildNode: (state, action) => {
       const parentNode = action.payload.parentNode;
+      console.log(parentNode);
       const position = action.payload.childNodePosition;
+      const id = nanoid();
+      const node = state.nodes.find((node) => node.id === parentNode.id);
+      node.childNode.push(id);
 
       const newNode = {
-        id: nanoid(),
+        id,
         type: "mindmap",
         data: { label: "NewNode" },
         position,
         parentNode: parentNode.id,
+        childNode: [],
       };
       const newEdge = {
         id: nanoid(),
         source: parentNode.id,
         target: newNode.id,
       };
+
+      // parentNode.childNode.push(id);
 
       state.nodes.push(newNode);
       state.edges.push(newEdge);
@@ -50,6 +59,13 @@ const nodeSlice = createSlice({
       const node = state.nodes.find((node) => node.id === id);
       if (node) {
         node.position = position;
+      }
+    },
+    updateNodeLabel: (state, action) => {
+      const { id, label } = action.payload;
+      const node = state.nodes.find((node) => node.id === id);
+      if (node) {
+        node.label = label;
       }
     },
   },
@@ -79,4 +95,5 @@ export const {
   onEdgesChange,
   addChildNode,
   updateNodePosition,
+  updateNodeLabel,
 } = nodeSlice.actions;

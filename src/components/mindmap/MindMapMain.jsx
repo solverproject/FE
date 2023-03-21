@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ReactFlow, {
   Controls,
@@ -17,19 +17,14 @@ import {
 import MindMapNode from "./MindMapNode";
 import MindMapEdge from "./MindMapEdge";
 import "reactflow/dist/style.css";
+import Modal from "../modal/Modal";
+import CreateModal from "../modal/CreateModal";
 
 const nodeOrigin = [0.5, 0.5];
 const connectionLineStyle = { stroke: "#F6AD55", strokeWidth: 3 };
 const defaultEdgeOptions = { style: connectionLineStyle, type: "mindmap" };
 
 //커스텀 엣지 및 노드를 위해 컴포넌트 만들어서 타입지정.
-const nodeTypes = {
-  mindmap: MindMapNode,
-};
-
-const edgeTypes = {
-  mindmap: MindMapEdge,
-};
 
 /**
  * Redux로 상태관리를 합니다.
@@ -37,6 +32,16 @@ const edgeTypes = {
  *
  */
 export default function MindMapMain() {
+  const nodeTypes = {
+    // mindmap: MindMapNode,
+    mindmap: (props) => (
+      <MindMapNode {...props} hovered={hoveredNodeId.includes(props.id)} />
+    ),
+  };
+
+  const edgeTypes = {
+    mindmap: MindMapEdge,
+  };
   //redux의 dispatch로 action 전달
   const nodes = useSelector((state) => state.NodeSlice.nodes);
   const edges = useSelector((state) => state.NodeSlice.edges);
@@ -94,7 +99,13 @@ export default function MindMapMain() {
       const targetIsPane = event.target.classList.contains("react-flow__pane");
       console.log(targetIsPane);
 
-      if (targetIsPane && connectingNodeId.current) {
+      const node = event.target.closest(".react-flow__node");
+
+      if (node) {
+        console.log(targetIsPane);
+
+        node.querySelector("input")?.focus({ preventScroll: true });
+      } else if (targetIsPane && connectingNodeId.current) {
         const parentNode = nodeInternals.get(connectingNodeId.current);
         const childNodePosition = getChildNodePosition(event, parentNode);
 
@@ -113,6 +124,48 @@ export default function MindMapMain() {
     [dispatch]
   );
 
+  const [hoveredNodeId, setHoveredNodeId] = useState([]);
+  //모든 조상 노드 가져와
+  const getAncestorNodeIds = (nodeId, nodes) => {
+    const node = nodes.find((n) => n.id === nodeId);
+    if (!node || !node?.parentNode) {
+      return [];
+    }
+
+    return [node.parentNode, ...getAncestorNodeIds(node.parentNode, nodes)];
+  };
+
+  //모달을 띄우기 위한 초석
+  const [isModal, setIsModal] = useState(false);
+  const [position, setPosition] = useState(null); //모달창 바로옆에 두기
+  const [nodePosition, setNodePosition] = useState({ x: 0, y: 0 });
+
+  //마우스 올리면 색상 바꿔
+  const HandlerNodeMouseEnter = useCallback(
+    (e, node) => {
+      console.log(node);
+      // setHoveredNodeId(node.id);
+      // if (node?.parentNode) {
+      //   setHoveredNodeId(...hoveredNodeId, node.parentNode);
+      // }
+      const ancestorNodeIds = getAncestorNodeIds(node.id, nodes);
+      setHoveredNodeId([node.id, ...ancestorNodeIds]);
+      setIsModal(true);
+      // setPosition(node.position);
+      setNodePosition({
+        x: node.positionAbsolute.x,
+        y: node.positionAbsolute.y,
+      });
+      // const target = document.querySelector(".");
+    },
+    [nodes]
+  );
+  //마우스 떼면 색상 돌아와
+  const HandlerNodeMouseLeave = useCallback(() => {
+    setHoveredNodeId([]);
+    setIsModal((prev) => !prev);
+  });
+
   return (
     <ReactFlow
       nodes={nodes}
@@ -128,9 +181,23 @@ export default function MindMapMain() {
       connectionLineStyle={connectionLineStyle}
       defaultEdgeOptions={defaultEdgeOptions}
       connectionLineType={ConnectionLineType.Straight}
+      onNodeMouseEnter={HandlerNodeMouseEnter}
+      onNodeMouseLeave={HandlerNodeMouseLeave}
       fitView
-      //   nodeTypes={nodeTypes}
     >
+      {isModal && (
+        <Modal
+          onClose={() => {
+            setIsModal(false);
+          }}
+          Body={<CreateModal />}
+          width="200px"
+          position={{
+            x: nodePosition.x + 10,
+            y: nodePosition.y + 10,
+          }}
+        />
+      )}
       <Controls showInteractive={false} />
       <Panel position="top-left">React Flow</Panel>
     </ReactFlow>

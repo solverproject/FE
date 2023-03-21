@@ -1,5 +1,5 @@
 import React from "react";
-import { BaseEdge, EdgeProps, getStraightPath } from "reactflow";
+import { BaseEdge, getStraightPath } from "reactflow";
 
 export default function MindMapEdge(props) {
   const { sourceX, sourceY, targetX, targetY } = props;
@@ -10,7 +10,7 @@ export default function MindMapEdge(props) {
    */
   const [edgePath] = getStraightPath({
     sourceX,
-    sourceY,
+    sourceY: sourceY - 10,
     targetX,
     targetY,
   });
